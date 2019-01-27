@@ -14,3 +14,16 @@ stopT = time.time()
 print('')
 total = stopT-startT
 print (total)
+
+print('===============')
+
+
+kills=50
+wins=10
+
+myString = f"""
+this is a 
+multiline string and kills is {kills}
+and wins is {wins}"""
+
+print(myString)

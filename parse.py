@@ -8,9 +8,11 @@ print(sys.version)
 with open('stats.json') as f:
     data = json.load(f)
 
-print("Duo Kills: " + str(data['stats']['kills_duo']))
 print("=================")
-pprint(data)
+print("Duo Kills: " + str(data['stats']['kills_duo']))
+print("platform: " + str(data['platform']))
+print("=================")
+#pprint(data)
 
 
 #pp = pprint.PrettyPrinter(indent=4)

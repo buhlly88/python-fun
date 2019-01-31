@@ -53,13 +53,34 @@ def getStats(username):
     data = r.content.decode("utf-8")
     parsedData = json.loads(data)
     
+    print(username)
+
     stats={}
     stats['Username']=username
-    stats['solokd']=parsedData['stats']['p2']['kd']['value']
-    stats['duokd']=parsedData['stats']['p9']['kd']['value']
-    stats['squadkd'] =parsedData['stats']['p10']['kd']['value']
-    stats['totalwins']=parsedData['lifeTimeStats'][8]['value']
-    stats['totalkills']=parsedData['lifeTimeStats'][10]['value']
+    try:
+        stats['solokd']=parsedData['stats']['p2']['kd']['value']
+    except:
+        stats['solokd']=0
+
+    try:
+        stats['duokd']=parsedData['stats']['p9']['kd']['value']
+    except:
+        stats['duokd']=0
+
+    try:
+        stats['squadkd']=parsedData['stats']['p10']['kd']['value']
+    except:
+        stats['squadkd']=0
+
+    try:
+        stats['totalwins']=parsedData['lifeTimeStats'][8]['value']
+    except:
+        stats['totalwins']=0
+
+    try:
+        stats['totalkills']=parsedData['lifeTimeStats'][10]['value']
+    except:
+        stats['totalkills']=0
 
     return stats
 
@@ -79,7 +100,7 @@ def getHTML(stats):
 
 
 #Define variables
-usernames=['v7_fatigue','UNIcorn-XD','thecurryboy','Sad Pika','Obamayang420','extrabaconplz','MilkyBiscuits YT','Spelchekk','Ninja','HighDistortion']
+usernames=['v7_fatigue','UNIcorn-XD','thecurryboy','Sad Pika','Obamayang420','extrabaconplz','MilkyBiscuits YT','Spelchekk','Ninja','HighDistortion','Lilsquad_YT','MaxMoomin']
 uesrnames=usernames.sort(key=str.lower) 
 topSection = '''
 <!doctype html>

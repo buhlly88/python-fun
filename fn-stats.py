@@ -38,9 +38,6 @@ print(myString)
 
 
 
-
-
-
 import sys
 from pprint import pprint
 import requests
@@ -48,33 +45,95 @@ import json
 
 print(sys.version)
 
-username="spelchekk"
+def getStats(username):
+    url ="https://api.fortnitetracker.com/v1/profile/pc/" + username
+    headers = {'TRN-Api-Key': 'e79ac99b-1033-43a8-833a-c2733ace72f6'}
+    
+    r = requests.get(url, headers=headers)
+    data = r.content.decode("utf-8")
+    parsedData = json.loads(data)
+    
+    stats={}
+    stats['Username']=username
+    stats['solokd']=parsedData['stats']['p2']['kd']['value']
+    stats['duokd']=parsedData['stats']['p9']['kd']['value']
+    stats['squadkd'] =parsedData['stats']['p10']['kd']['value']
+    stats['totalwins']=parsedData['lifeTimeStats'][8]['value']
+    stats['totalkills']=parsedData['lifeTimeStats'][10]['value']
+
+    return stats
+
+def getHTML(stats):
+    myHMTL=f"""
+        <tr>
+            <td><font color='blue'>{username}</td></font>        
+            <td>{stats['solokd']}</td>
+            <td>{stats['duokd']}</td>
+            <td>{stats['squadkd']}</td>
+            <td>{stats['totalkills']}</td>
+            <td>{stats['totalwins']}</td>
+        </tr>"""        
+
+    return myHMTL
 
 
-url ="https://api.fortnitetracker.com/v1/profile/pc/" + username
-headers = {'TRN-Api-Key': 'e79ac99b-1033-43a8-833a-c2733ace72f6'}
+
+#Define variables
+usernames=['v7_fatigue','UNIcorn-XD','thecurryboy','Sad Pika','Obamayang420','extrabaconplz','MilkyBiscuits YT','Spelchekk','Ninja','HighDistortion']
+uesrnames=usernames.sort(key=str.lower) 
+topSection = '''
+<!doctype html>
+<html>
+  <head>
+    <title>Fortnite stats</title>
+    <meta name="description" content="Fortnite stats">
+    <meta name="keywords" content="fortnite stats">
+  </head>
+
+  <body>
+    <p>This is a table show fortnite stats</p>
+    <table border="1" width="75%">
+      <tr>
+        <td><b><font color="red">Name</b></td></font>
+        <td><b><font color='red'>Solo KD</b></td></font>
+        <td><b><font color='red'>Duo KD</b></td></font>
+        <td><b><font color='red'>Squad KD</b></td></font>
+        <td><b><font color='red'>Total Kills</b></td></font>
+        <td><b><font color='red'>Total Wins</b></td></font>
+      </tr>
+'''
+
+bottomSection='''
+    </table>
+  </body>
+</html>
+'''
+
+middleSection = ''
 
 
-r = requests.get(url, headers=headers)
-data = r.content.decode("utf-8")
+for username in usernames:
+    currentStat=getStats(username)
+    myHTML = getHTML(currentStat)
+    middleSection = middleSection + myHTML 
+
+
+#put the piece together
+myPage = topSection + middleSection + bottomSection
+
+
+f = open("fn-stats.html", "w")
+f.write(myPage)
+
+
+#pprint(myBigVariable)
+#print(s.get('solokd'))
+#sys.exit()
+
 
 #print(r.content.decode("utf-8"))
 #sys.exit('bam')
 
-parsedData = json.loads(data)
-
-kdP2=parsedData['stats']['p2']['kd']['value']
-kdP9=parsedData['stats']['p9']['kd']['value']
-kdP10=parsedData['stats']['p10']['kd']['value']
-totalWins=parsedData['lifeTimeStats'][8]['value']
-totalKills=parsedData['lifeTimeStats'][10]['value']
-
-
-print(kdP2)
-print(kdP9)
-print(kdP10)
-print(totalWins)
-print(totalKills)
 
 #print(parsed_json['accountId'])
 
